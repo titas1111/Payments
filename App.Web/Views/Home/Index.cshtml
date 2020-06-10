@@ -1,0 +1,35 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<p>Only customers with id 1 and 2 exist</p>
+
+<form method="post" class="form-horizontal" role="form">
+
+    <fieldset class="form-group">
+        <label asp-for="CustomerId"></label>
+        <input asp-for="CustomerId" class="form-control" />
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <select name="typeOfRequest" asp-items="Html.GetEnumSelectList<TypeOfRequest>()" class="form-control"></select>
+    </fieldset>
+
+    <input id="submitApplication" type="submit" value="Generate report" class="btn btn-primary" />
+
+</form>
+
+@if (Model != null)
+{
+    <partial name="_PaymentTable" model="Model.Payments" />
+}
+
+@ViewBag.CustomerNotFound
