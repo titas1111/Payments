@@ -39,6 +39,14 @@ namespace App.Core
                 Category = CategoryEnum.Utilities
             };
 
+            var customer1Payment4 = new Payment
+            {
+                Price = 5000,
+                Description = "Tesla tickets",
+                MonthId = 1,
+                Category = CategoryEnum.Transportation
+            };
+
             customer1.Payments.Add(customer1Payment1);
             customer1.Payments.Add(customer1Payment2);
             customer1.Payments.Add(customer1Payment3);
@@ -50,6 +58,7 @@ namespace App.Core
             customer1.Payments.Add(customer1Payment3);
             customer1.Payments.Add(customer1Payment2);
             customer1.Payments.Add(customer1Payment3);
+            customer1.Payments.Add(customer1Payment4);
 
             ListOfCustomers.Add(customer1);
 

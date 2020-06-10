@@ -49,11 +49,11 @@ namespace App.Core
         }
         //Atfiltruoti kategorijas, kuriose klientas šį mėnesį išleido bent 50% daugiau nei praeitą
         //Work in progress
-        public void CompareCategoriesBetweenMonths(Customer customer, int threshold)
+        public IEnumerable<Payment> CompareCategoriesBetweenMonths(Customer customer, double threshold)
         {
             // month category and price aggragation
             var payments = customer
-                .Payments.GroupBy(x => new { x.MonthId, x.Category, x.Price})
+                .Payments.GroupBy(x => new { x.MonthId, x.Category})
                 .Select(p =>
                     new Payment
                     { 
@@ -62,9 +62,25 @@ namespace App.Core
                         Price = p.Sum(p => p.Price)               
                 }).ToList();
 
-            var firstMonthPayments = payments.Where(p => p.MonthId == 0);
+            var firstMonthPayments = payments.Where(p => p.MonthId == 0).ToDictionary(t => t.Category, t => t.Price);
 
-            int aa = 1;
+            var secondMonthPayments = payments.Where(p => p.MonthId == 1).ToDictionary(t => t.Category, t => t.Price);
+
+
+            List<Payment> paymentsfiltered = new List<Payment>();
+
+            foreach (var payment in secondMonthPayments)
+            {
+                if(firstMonthPayments.ContainsKey(payment.Key))
+                {
+                    if (firstMonthPayments[payment.Key] < payment.Value)
+                    {
+                        paymentsfiltered.Add(new Payment{ Category = payment.Key, Price = payment.Value});
+                    }
+                }
+            }
+
+            return paymentsfiltered;
         }
     }
 }

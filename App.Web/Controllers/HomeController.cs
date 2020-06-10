@@ -65,10 +65,11 @@ namespace App.Web.Controllers
             }
             else if (typeOfRequest == TypeOfRequest.CompareCategories)
             {
-                customerProcessor.CompareCategoriesBetweenMonths(filteredCustomerById, 50);
+                var result = customerProcessor.CompareCategoriesBetweenMonths(filteredCustomerById, 50);
+                Customer customer = customerProcessor.CreateCustomerModelWithFilteredPayments(result);
                 ViewBag.TypeOfRequest = typeOfRequest;
 
-                return View();
+                return View(customer);
             }
 
             return View(customerModel);
