@@ -13,6 +13,8 @@ namespace App.Web.Models
         [Display(Name = "Get Past Month")]
         GetPastMonth,
         [Display(Name = "Compare months")]
-        CompareMonths
+        CompareMonths,
+        [Display(Name = "Compare Categories")]
+        CompareCategories
     }
 }

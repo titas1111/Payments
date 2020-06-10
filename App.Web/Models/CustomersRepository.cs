@@ -19,21 +19,24 @@ namespace App.Core
             {
                 Price = 100,
                 Description = "Food",
-                MonthId = 1
+                MonthId = 1,
+                Category = CategoryEnum.Food
             };
 
             var customer1Payment2 = new Payment
             {
                 Price = 50,
                 Description = "Drinks",
-                MonthId = 0
+                MonthId = 0,
+                Category = CategoryEnum.Transportation
             };
 
             var customer1Payment3 = new Payment
             {
                 Price = 50,
                 Description = "Cola cola",
-                MonthId = 0
+                MonthId = 0,
+                Category = CategoryEnum.Utilities
             };
 
             customer1.Payments.Add(customer1Payment1);
@@ -60,14 +63,16 @@ namespace App.Core
             {
                 Price = 500,
                 Description = "Food and drinks",
-                MonthId = 1
+                MonthId = 1,
+                Category = CategoryEnum.Utilities
             };
 
             var customer2Payment2 = new Payment
             {
                 Price = 50,
                 Description = "Cat Food",
-                MonthId = 0
+                MonthId = 0,
+                Category = CategoryEnum.Utilities
             };
 
             customer2.Payments.Add(customer2Payment1);

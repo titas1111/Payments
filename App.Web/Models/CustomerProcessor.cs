@@ -46,7 +46,25 @@ namespace App.Core
                  }).ToList();
 
             return payments;
+        }
+        //Atfiltruoti kategorijas, kuriose klientas šį mėnesį išleido bent 50% daugiau nei praeitą
+        //Work in progress
+        public void CompareCategoriesBetweenMonths(Customer customer, int threshold)
+        {
+            // month category and price aggragation
+            var payments = customer
+                .Payments.GroupBy(x => new { x.MonthId, x.Category, x.Price})
+                .Select(p =>
+                    new Payment
+                    { 
+                        MonthId = p.Key.MonthId,
+                        Category = p.Key.Category,
+                        Price = p.Sum(p => p.Price)               
+                }).ToList();
 
+            var firstMonthPayments = payments.Where(p => p.MonthId == 0);
+
+            int aa = 1;
         }
     }
 }

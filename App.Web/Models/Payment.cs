@@ -4,7 +4,7 @@
     {
         public int Price { get; set; }
         public string Description { get; set; }
-        //public int Category { get; set; }
+        public CategoryEnum Category { get; set; }
         public int MonthId { get; set; }
     }
 }

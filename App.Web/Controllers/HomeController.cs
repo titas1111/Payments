@@ -63,8 +63,15 @@ namespace App.Web.Controllers
 
                 return View(customer);
             }
+            else if (typeOfRequest == TypeOfRequest.CompareCategories)
+            {
+                customerProcessor.CompareCategoriesBetweenMonths(filteredCustomerById, 50);
+                ViewBag.TypeOfRequest = typeOfRequest;
 
-                return View(customerModel);
+                return View();
+            }
+
+            return View(customerModel);
         }
 
         public IActionResult Privacy()
