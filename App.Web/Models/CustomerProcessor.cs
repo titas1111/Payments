@@ -47,40 +47,44 @@ namespace App.Core
 
             return payments;
         }
-        //Atfiltruoti kategorijas, kuriose klientas šį mėnesį išleido bent 50% daugiau nei praeitą
-        //Work in progress
+
         public IEnumerable<Payment> CompareCategoriesBetweenMonths(Customer customer, double threshold)
         {
-            // month category and price aggragation
-            var payments = customer
-                .Payments.GroupBy(x => new { x.MonthId, x.Category})
-                .Select(p =>
-                    new Payment
-                    { 
-                        MonthId = p.Key.MonthId,
-                        Category = p.Key.Category,
-                        Price = p.Sum(p => p.Price)               
-                }).ToList();
+            IEnumerable<Payment> groupedPaymentsByMonthAndCategory = GroupCustomerPaymentsByMonthAndCategory(customer);
 
-            var firstMonthPayments = payments.Where(p => p.MonthId == 0).ToDictionary(t => t.Category, t => t.Price);
+            var firstMonthPayments = groupedPaymentsByMonthAndCategory.Where(p => p.MonthId == 0).ToDictionary(t => t.Category, t => t.Price);
+            var secondMonthPayments = groupedPaymentsByMonthAndCategory.Where(p => p.MonthId == 1).ToDictionary(t => t.Category, t => t.Price);
 
-            var secondMonthPayments = payments.Where(p => p.MonthId == 1).ToDictionary(t => t.Category, t => t.Price);
-
-
-            List<Payment> paymentsfiltered = new List<Payment>();
+            List<Payment> payments = new List<Payment>();
 
             foreach (var payment in secondMonthPayments)
             {
-                if(firstMonthPayments.ContainsKey(payment.Key))
+                if (firstMonthPayments.ContainsKey(payment.Key))
                 {
-                    if (firstMonthPayments[payment.Key] < payment.Value)
+                    if (firstMonthPayments[payment.Key] * threshold <= payment.Value)
                     {
-                        paymentsfiltered.Add(new Payment{ Category = payment.Key, Price = payment.Value});
+                        payments.Add(new Payment {
+                            Description = $"Category: {payment.Key} in month 0 total amount: {firstMonthPayments[payment.Key]}, in month 1 total amount is {payment.Value}",
+                            Price = payment.Value,
+                            MonthId = 1                        
+                        });
                     }
                 }
             }
+            return payments;
+        }
 
-            return paymentsfiltered;
+        private static IEnumerable<Payment> GroupCustomerPaymentsByMonthAndCategory(Customer customer)
+        {
+            return customer
+                .Payments.GroupBy(x => new { x.MonthId, x.Category })
+                .Select(p =>
+                    new Payment
+                    {
+                        MonthId = p.Key.MonthId,
+                        Category = p.Key.Category,
+                        Price = p.Sum(p => p.Price)
+                    });
         }
     }
 }

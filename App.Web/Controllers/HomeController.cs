@@ -65,7 +65,7 @@ namespace App.Web.Controllers
             }
             else if (typeOfRequest == TypeOfRequest.CompareCategories)
             {
-                var result = customerProcessor.CompareCategoriesBetweenMonths(filteredCustomerById, 50);
+                var result = customerProcessor.CompareCategoriesBetweenMonths(filteredCustomerById, 1.5);
                 Customer customer = customerProcessor.CreateCustomerModelWithFilteredPayments(result);
                 ViewBag.TypeOfRequest = typeOfRequest;
 

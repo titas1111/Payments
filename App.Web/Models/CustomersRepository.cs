@@ -19,7 +19,7 @@ namespace App.Core
             {
                 Price = 100,
                 Description = "Food",
-                MonthId = 1,
+                MonthId = 0,
                 Category = CategoryEnum.Food
             };
 
@@ -47,6 +47,14 @@ namespace App.Core
                 Category = CategoryEnum.Transportation
             };
 
+            var customer1Payment5 = new Payment
+            {
+                Price = 2000,
+                Description = "Food",
+                MonthId = 1,
+                Category = CategoryEnum.Food
+            };
+
             customer1.Payments.Add(customer1Payment1);
             customer1.Payments.Add(customer1Payment2);
             customer1.Payments.Add(customer1Payment3);
@@ -59,6 +67,7 @@ namespace App.Core
             customer1.Payments.Add(customer1Payment2);
             customer1.Payments.Add(customer1Payment3);
             customer1.Payments.Add(customer1Payment4);
+            customer1.Payments.Add(customer1Payment5);
 
             ListOfCustomers.Add(customer1);
 
